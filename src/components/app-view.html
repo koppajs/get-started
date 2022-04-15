@@ -1,0 +1,75 @@
+<template>
+  <header-component :title></header-component>
+  <router-view :obj="router"></router-view>
+  <footer-component></footer-component>
+  <side-nav :title></side-nav>
+</template>
+
+<script>
+  data: {
+    title: 'Get Started',
+    router: {
+      async middleware(route) {
+        console.log('run router middleware');
+        // do something
+        return true;
+      },
+      routes: [
+        {
+          path: '/',
+          component: 'page-home'
+        },
+        
+        {
+          path: '/home/',
+          component: 'page-home'
+        },
+        
+        {
+          path: '/test/:id<^[0-9]+>',
+          async handler(params) {
+            console.log(params);
+            console.log('run route handler');
+            // do something
+            return true;
+          },
+          component: 'page-test'
+        }
+      ]
+    }
+  }
+</script>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  app-view {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #ddd;
+  }
+
+  router-view {
+    display: block;
+    width: 100%;
+    height: calc(100% - 128px);
+  }
+
+  router-view > * {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+  }
+</style>

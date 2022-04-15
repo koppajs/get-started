@@ -1,0 +1,26 @@
+version: "3.5"
+services:
+    base:
+        image: node:14
+        volumes:
+            - .:/app
+        working_dir: /app
+    install:
+        extends:
+            service: base
+        command: npm install
+    dev:
+        container_name: get_started_dev_con
+        extends:
+            service: base
+        command: npm run start
+        ports:
+            - ${EXPOSED_PORT}:${INTERNAL_PORT}
+        environment:
+            NODE_ENV: "development"
+        restart: unless-stopped
+        networks:
+            - default
+networks:
+    default:
+        name: get_started_default_network
