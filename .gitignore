@@ -1,0 +1,20 @@
+# Git
+.git/
+
+# Node & npm
+node_modules/
+package-lock.json
+
+# cache
+.cache/
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+
+# Buildfiles
+dist/*
+core/*

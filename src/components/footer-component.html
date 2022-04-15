@@ -1,0 +1,26 @@
+<template>
+    <div>© 2020-{{fullYear}} | {{author}}</div>
+</template>
+
+<script>
+    data: {
+        author: 'Linuxcode, Bastian Bensch (Sortex)'
+    },
+    comp: {
+        fullYear() {
+            let now = new Date();
+            return now.getFullYear();
+        }
+    }
+</script>
+
+<style>
+    footer-component {
+        display: block;
+        width: 100%;
+        height: 64px;
+        padding: 8px 16px;
+        background-color: rgb(165, 165, 165);
+        color: #000000;
+    }
+</style>

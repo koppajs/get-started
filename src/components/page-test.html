@@ -1,0 +1,33 @@
+<template>
+    <div>
+        URL param id is {{params.id}}<br>
+
+        <br>
+        {{watchText}}
+        <br>
+        <br>
+        <button class="btn">Click Me - change watched text</button>
+    </div>
+</template>
+
+<script>
+    data: {
+        watchText: 'i`m watched text'
+    },
+    pre() {
+        this.params = $.router.getParams();
+    },
+    watching: [
+        'watchText'
+    ],
+    events: [
+        ['.btn', 'click', function() {
+            console.log('click');
+            this.watchText = 'Text is changed and watched!';
+        }]
+    ]
+</script>
+
+<style>
+    
+</style>

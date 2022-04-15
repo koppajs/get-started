@@ -1,0 +1,155 @@
+<template>
+  <div class="wrapper closed" ref="wrapper">
+    <div class="closer" @toggle-nav></div>
+    <nav class="size-normal" ref="nav">
+      <ul>
+        <li>
+          <span>{{title}}</span>
+        </li>
+      </ul>
+
+      <ul>
+        <li loop="item in navigation" @toggle-nav>
+          <a push="{{item.path}}"><span>{{item.name}}</span></a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</template>
+
+<script>
+  data: {
+    navigation: [
+      {name: 'Home', path: '/home'},
+      {name: 'Test', path: '/test/10'}
+
+    ]
+  },
+  merged() {
+    let activeLink = $.refs['nav'].querySelector(`a[push|='${(location.pathname === '/' ? '/home' : location.pathname)}']`);
+    activeLink && activeLink.parentElement.toggleClass('active');
+  },
+  events: [
+    [$.refs['wrapper'], 'toggle-nav', () => $.refs['wrapper'].toggleClass('opened, closed')],
+    [$.refs['nav'], 'toggle-nav-size', () => $.refs['nav'].toggleClass('size-small, size-normal')],
+
+    ['.close', 'click', function(event) {
+      this.toggleSideNav();
+    }],
+
+    ['a', 'click', function(event) {
+      event.preventDefault();
+      const target = event.target.closest('a');
+      target.parentElement.addClass('active').siblings(ele => ele.removeClass('active'));
+
+      target.parentElement.parentElement.siblings(ele => {
+        for(const child of ele.children) {
+          child.removeClass('active');
+        }
+      });
+    }]
+  ]
+</script>
+  
+<style>
+  side-nav {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100%);
+    z-index: 4;
+  }
+
+  side-nav .wrapper {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0s;
+  }
+
+  side-nav .wrapper.closed {
+    transform: translateX(0);
+    transition-delay: .4s;
+  }
+
+  side-nav .wrapper.opened {
+    transform: translateX(100%);
+  }
+
+  side-nav nav {
+    display: flex;
+    flex-flow: column nowrap;
+    position: relative;
+    width: fit-content;
+    height: 100%;
+    z-index: 2;
+    padding: 8px;
+    
+    background-color: white;
+  }
+
+  side-nav .wrapper.closed nav {
+    transform: translateX(-100%);
+    transition: transform .3s ease-in;
+  }
+
+  side-nav .wrapper.opened nav {
+    transform: translateX(0);
+    transition: transform .4s ease-out;
+  }
+
+  side-nav .wrapper nav ul {
+    display: flex;
+    flex-flow: column nowrap;
+    position: relative;
+  }
+
+  side-nav .wrapper nav.size-normal ul {
+    width: 158px;
+    transition: width .2s ease-in;
+  }
+
+  side-nav .wrapper nav.size-small ul {
+    width: 52px;
+    transition: width .2s ease-out;
+  }
+
+  side-nav nav ul:first-of-type {
+    height: 64px;
+  }
+
+  side-nav nav ul:nth-of-type(2) {
+    flex-grow: 1;
+    [[values.border-top-xs-solid-base-light]]
+    [[values.border-bottom-xs-solid-base-light]]
+  }
+
+  side-nav nav ul:last-of-type {
+    height: 44px;
+  }
+
+  side-nav .closer {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .4);
+    z-index: 1;
+  }
+
+  side-nav .wrapper.closed .closer {
+    opacity: 0;
+    transition: opacity .3s ease-out;
+  }
+
+  side-nav .wrapper.opened .closer {
+    opacity: 1;
+    transition: opacity .4s ease-in;
+  }
+</style>
