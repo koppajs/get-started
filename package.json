@@ -26,7 +26,7 @@
     "start": "webpack serve --config ./webpack.js"
   },
   "dependencies": {
-    "@koppajs/core": "^2.0.5",
+    "@koppajs/core": "^2.0.6",
     "core-js": "^3.14.0",
     "webpack": "^5.69.1",
     "dotenv": "^16.0.0",
